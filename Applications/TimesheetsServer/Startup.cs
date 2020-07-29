@@ -9,6 +9,8 @@ using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
 using Steeltoe.Management.CloudFoundry;
 using Timesheets.Data;
 using Timesheets.ProjectClient;
+using Steeltoe.Discovery.Client;
+using common = Steeltoe.Common.Discovery;
 
 namespace TimesheetsServer
 {
@@ -33,14 +35,15 @@ namespace TimesheetsServer
             
             services.AddSingleton<IProjectClient>(sp =>
             {
-                var httpClient = new HttpClient
+                var handler = new common.DiscoveryHttpClientHandler(sp.GetService<common.IDiscoveryClient>());
+                var httpClient = new HttpClient(handler, false)
                 {
                     BaseAddress = new Uri(Configuration.GetValue<string>("REGISTRATION_SERVER_ENDPOINT"))
                 };
 
                 return new ProjectClient(httpClient);
             });
-            
+            services.AddDiscoveryClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +53,7 @@ namespace TimesheetsServer
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseDiscoveryClient();
             app.UseCloudFoundryActuators();
 
             app.UseRouting();
