@@ -57,7 +57,7 @@ namespace AllocationsServer
            
 
             app.UseCloudFoundryActuators();
-             app.UseDiscoveryClient();
+             
 
             app.UseRouting();
 
@@ -67,6 +67,8 @@ namespace AllocationsServer
             {
                 endpoints.MapControllers();
             });
+
+            app.UseDiscoveryClient();
         }
     }
 }

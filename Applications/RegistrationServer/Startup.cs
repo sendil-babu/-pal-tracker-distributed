@@ -49,7 +49,7 @@ namespace RegistrationServer
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseDiscoveryClient();
+            
             app.UseCloudFoundryActuators();
 
             app.UseRouting();
@@ -60,6 +60,7 @@ namespace RegistrationServer
             {
                 endpoints.MapControllers();
             });
+            app.UseDiscoveryClient();
         }
     }
 }

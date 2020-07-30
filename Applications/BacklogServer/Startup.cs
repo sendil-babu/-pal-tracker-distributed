@@ -53,7 +53,7 @@ namespace BacklogServer
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseDiscoveryClient();
+             
             app.UseCloudFoundryActuators();
 
             app.UseRouting();
@@ -64,6 +64,7 @@ namespace BacklogServer
             {
                 endpoints.MapControllers();
             });
+            app.UseDiscoveryClient();
         }
     }
 }
